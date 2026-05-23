@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .calculator {
+            background: #1e1e2f;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            width: 320px;
+        }
+        input {
+            width: 100%;
+            height: 80px;
+            font-size: 28px;
+            text-align: left;
+            padding: 0 15px;
+            background: #0f0f1a;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            direction: ltr;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        button {
+            height: 65px;
+            font-size: 22px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .number, .decimal {
+            background: #2d2d44;
+            color: white;
+        }
+        .operator {
+            background: #ff9500;
+            color: white;
+            font-weight: bold;
+        }
+        .clear, .delete {
+            background: #ff4757;
+            color: white;
+        }
+        .equals {
+            background: #23c46e;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="delete" onclick="deleteLast()">⌫</button>
+            <button class="operator" onclick="appendToDisplay('/')">÷</button>
+            <button class="operator" onclick="appendToDisplay('*')">×</button>
+            
+            <button class="number" onclick="appendToDisplay('7')">7</button>
+            <button class="number" onclick="appendToDisplay('8')">8</button>
+            <button class="number" onclick="appendToDisplay('9')">9</button>
+            <button class="operator" onclick="appendToDisplay('-')">-</button>
+            
+            <button class="number" onclick="appendToDisplay('4')">4</button>
+            <button class="number" onclick="appendToDisplay('5')">5</button>
+            <button class="number" onclick="appendToDisplay('6')">6</button>
+            <button class="operator" onclick="appendToDisplay('+')">+</button>
+            
+            <button class="number" onclick="appendToDisplay('1')">1</button>
+            <button class="number" onclick="appendToDisplay('2')">2</button>
+            <button class="number" onclick="appendToDisplay('3')">3</button>
+            <button class="equals" onclick="calculate()" style="grid-row: span 2;"> = </button>
+            
+            <button class="number" onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+            <button class="decimal" onclick="appendToDisplay('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function deleteLast() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                let expression = display.value
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/');
+                
+                display.value = eval(expression);
+            } catch (error) {
+                display.value = 'خطا';
+                setTimeout(() => clearDisplay(), 1500);
+            }
+        }
+
+        // پشتیبانی از کیبورد
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') calculate();
+            if (e.key === 'Escape') clearDisplay();
+        });
+    </script>
+</body>
+</html>
