@@ -1,0 +1,17 @@
+{
+  "appId": "com.calculatorpro.app",
+  "appName": "Calculator Pro",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

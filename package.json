@@ -1,0 +1,41 @@
+{
+  "name": "calculator-app",
+  "version": "2.0.0",
+  "description": "ماشین حساب فارسی با ۳ تم: روشن، تاریک، نئون",
+  "type": "module",
+  "scripts": {
+    "dev": "live-server --port=8080 --host=0.0.0.0 --open=/ --watch=./",
+    "start": "live-server --port=8080 --host=0.0.0.0",
+    "preview": "npx serve .",
+    "sync": "npx cap sync",
+    "android": "npx cap sync android && npx cap open android",
+    "build:android": "cd android && ./gradlew assembleDebug",
+    "copy:www": "rm -rf www && mkdir -p www && cp -r index.html css js icons manifest.json sw.js www/"
+  },
+  "keywords": [
+    "calculator",
+    "persian",
+    "theme",
+    "neon",
+    "rtl"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasinmortazavi53-prog/calculator-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yasinmortazavi53-prog/calculator-app/issues"
+  },
+  "homepage": "https://github.com/yasinmortazavi53-prog/calculator-app#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1"
+  }
+}

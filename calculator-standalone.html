@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب سه تمه – روشن | تاریک | نئون</title>
+    <meta name="description" content="ماشین حساب فارسی با سه تم زیبا: روشن، تاریک و نئون">
+    <style>
+/* Vazirmatn fallback + system */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+
+:root {
+  --transition-speed: 0.35s;
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
+}
+
+/* ===== DARK THEME (default) ===== */
+[data-theme="dark"] {
+  --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg-body-solid: #1a1625;
+  --bg-calc: #1e1e2f;
+  --bg-calc-glass: rgba(30, 30, 47, 0.95);
+  --bg-display: #0f0f1a;
+  --text-main: #ffffff;
+  --text-display: #ffffff;
+  --text-secondary: #a8a8b8;
+  --btn-number-bg: #2d2d44;
+  --btn-number-color: #ffffff;
+  --btn-number-hover: #3a3a56;
+  --btn-operator-bg: #ff9500;
+  --btn-operator-color: #ffffff;
+  --btn-operator-hover: #ffb144;
+  --btn-clear-bg: #ff4757;
+  --btn-clear-hover: #ff6b7a;
+  --btn-equals-bg: #23c46e;
+  --btn-equals-hover: #2de082;
+  --shadow-calc: 0 20px 50px rgba(0,0,0,0.45);
+  --shadow-btn: 0 4px 12px rgba(0,0,0,0.2);
+  --border-calc: transparent;
+  --glow: none;
+  --toggle-bg: rgba(255,255,255,0.1);
+  --toggle-active: #ffffff;
+  --toggle-active-text: #1e1e2f;
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg-body: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --bg-body-solid: #f2f4f7;
+  --bg-calc: #ffffff;
+  --bg-calc-glass: rgba(255,255,255,0.98);
+  --bg-display: #f5f7fa;
+  --text-main: #1a1a2e;
+  --text-display: #1a1a2e;
+  --text-secondary: #6b7280;
+  --btn-number-bg: #f0f2f5;
+  --btn-number-color: #1f2937;
+  --btn-number-hover: #e4e7ec;
+  --btn-operator-bg: #3b82f6;
+  --btn-operator-color: #ffffff;
+  --btn-operator-hover: #60a5fa;
+  --btn-clear-bg: #ef4444;
+  --btn-clear-hover: #f87171;
+  --btn-equals-bg: #10b981;
+  --btn-equals-hover: #34d399;
+  --shadow-calc: 0 20px 50px rgba(31, 41, 55, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-btn: 0 2px 6px rgba(0,0,0,0.07);
+  --border-calc: #e5e7eb;
+  --glow: none;
+  --toggle-bg: #e8ecf2;
+  --toggle-active: #1f2937;
+  --toggle-active-text: #ffffff;
+}
+
+/* ===== NEON THEME ===== */
+[data-theme="neon"] {
+  --bg-body: radial-gradient(ellipse at top, #0a0a1a 0%, #000000 70%);
+  --bg-body-solid: #000000;
+  --bg-calc: rgba(8, 8, 18, 0.92);
+  --bg-calc-glass: rgba(8,8,18,0.88);
+  --bg-display: #000000;
+  --text-main: #eaffff;
+  --text-display: #00fff7;
+  --text-secondary: #9d5cff;
+  --btn-number-bg: rgba(16, 18, 38, 0.9);
+  --btn-number-color: #00fff7;
+  --btn-number-hover: rgba(30, 35, 70, 0.95);
+  --btn-operator-bg: transparent;
+  --btn-operator-color: #ff3af7;
+  --btn-operator-hover: rgba(255,58,247,0.08);
+  --btn-clear-bg: transparent;
+  --btn-clear-hover: rgba(255,0,110,0.08);
+  --btn-equals-bg: transparent;
+  --btn-equals-hover: rgba(0,255,170,0.08);
+  --shadow-calc: 0 0 30px rgba(0,255,247,0.15), 0 0 60px rgba(157,92,255,0.1), inset 0 0 30px rgba(0,255,247,0.03);
+  --shadow-btn: 0 0 12px rgba(0,255,247,0.08);
+  --border-calc: #00fff7;
+  --glow: 0 0 8px currentColor;
+  --toggle-bg: rgba(0,255,247,0.07);
+  --toggle-active: #00fff7;
+  --toggle-active-text: #000000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              transform 0.15s ease,
+              opacity var(--transition-speed) ease;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Vazirmatn', 'Tahoma', system-ui, sans-serif;
+  background: var(--bg-body-solid);
+  background-image: var(--bg-body);
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  direction: rtl;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+/* ===== Theme Switcher ===== */
+.theme-switcher {
+  background: var(--bg-calc-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 999px;
+  padding: 6px;
+  display: flex;
+  gap: 4px;
+  box-shadow: var(--shadow-calc);
+  border: 1px solid var(--border-calc);
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  justify-content: space-between;
+}
+
+[data-theme="neon"] .theme-switcher {
+  box-shadow: 0 0 18px rgba(0,255,247,0.2), var(--shadow-calc);
+  border: 1px solid rgba(0,255,247,0.4);
+}
+
+.theme-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.theme-btn:hover {
+  color: var(--text-main);
+}
+
+.theme-btn.active {
+  background: var(--toggle-active);
+  color: var(--toggle-active-text);
+  font-weight: 700;
+  box-shadow: var(--shadow-btn);
+}
+
+[data-theme="neon"] .theme-btn.active {
+  box-shadow: 0 0 14px var(--toggle-active), 0 0 30px rgba(0,255,247,0.35);
+  text-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+
+.theme-btn .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* quick toggle floating */
+.quick-toggle {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 50;
+  background: var(--bg-calc-glass);
+  border: 1px solid var(--border-calc);
+  color: var(--text-main);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-btn);
+  display: none; /* desktop hidden, mobile maybe? */
+}
+.quick-toggle:hover { transform: translateY(-1px); }
+
+/* ===== Calculator ===== */
+.calculator {
+  background: var(--bg-calc);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-calc);
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--border-calc);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="neon"] .calculator {
+  border: 1.5px solid var(--border-calc);
+  box-shadow: var(--shadow-calc);
+}
+[data-theme="neon"] .calculator::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #00fff7, #9d5cff, #ff3af7, #00fff7);
+  background-size: 400% 400%;
+  z-index: -1;
+  filter: blur(18px);
+  opacity: 0.18;
+  animation: neon-rotate 8s linear infinite;
+  border-radius: inherit;
+}
+@keyframes neon-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+.brand-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.brand .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #23c46e;
+  display: inline-block;
+  margin-left: 6px;
+  box-shadow: 0 0 8px #23c46e;
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Display */
+.display-wrap {
+  position: relative;
+  margin-bottom: 18px;
+}
+#expression {
+  width: 100%;
+  text-align: left;
+  direction: ltr;
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-height: 20px;
+  padding: 0 4px 4px;
+  opacity: 0.85;
+  font-family: 'Vazirmatn', monospace;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+#display {
+  width: 100%;
+  height: 78px;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: left;
+  padding: 0 16px;
+  background: var(--bg-display);
+  border: 1px solid transparent;
+  color: var(--text-display);
+  border-radius: var(--radius-md);
+  margin-bottom: 0;
+  direction: ltr;
+  font-family: 'Vazirmatn', 'Segoe UI Mono', monospace;
+  letter-spacing: 0.5px;
+  outline: none;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+}
+[data-theme="light"] #display {
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  border-color: #e5e7eb;
+}
+[data-theme="neon"] #display {
+  border: 1px solid rgba(0,255,247,0.35);
+  box-shadow: inset 0 0 18px rgba(0,255,247,0.07), 0 0 14px rgba(0,255,247,0.08);
+  text-shadow: 0 0 10px var(--text-display);
+  background: #000814;
+}
+#display::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Buttons grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+button.calc-btn {
+  height: 64px;
+  font-size: 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: var(--shadow-btn);
+}
+
+button.calc-btn:active {
+  transform: scale(0.94);
+}
+
+/* number */
+.calc-btn.number, .calc-btn.decimal {
+  background: var(--btn-number-bg);
+  color: var(--btn-number-color);
+}
+.calc-btn.number:hover, .calc-btn.decimal:hover {
+  background: var(--btn-number-hover);
+  transform: translateY(-1px);
+}
+
+/* operator */
+.calc-btn.operator {
+  background: var(--btn-operator-bg);
+  color: var(--btn-operator-color);
+  font-weight: 700;
+  font-size: 22px;
+}
+.calc-btn.operator:hover {
+  background: var(--btn-operator-hover);
+  transform: translateY(-1px);
+}
+[data-theme="neon"] .calc-btn.operator {
+  border: 1px solid rgba(255,58,247,0.5);
+  box-shadow: 0 0 10px rgba(255,58,247,0.12), inset 0 0 10px rgba(255,58,247,0.04);
+  text-shadow: var(--glow);
+}
+[data-theme="neon"] .calc-btn.operator:hover {
+  box-shadow: 0 0 18px rgba(255,58,247,0.3);
+}
+
+/* clear / delete */
+.calc-btn.clear, .calc-btn.delete {
+  background: var(--btn-clear-bg);
+  color: #fff;
+  font-weight: 700;
+}
+.calc-btn.clear:hover, .calc-btn.delete:hover {
+  background: var(--btn-clear-hover);
+  transform: translateY(-1px);
+}
+[data-theme="neon"] .calc-btn.clear,
+[data-theme="neon"] .calc-btn.delete {
+  color: #ff4d8d;
+  border: 1px solid rgba(255,77,141,0.45);
+  background: transparent;
+  text-shadow: 0 0 8px #ff4d8d;
+}
+[data-theme="neon"] .calc-btn.clear:hover,
+[data-theme="neon"] .calc-btn.delete:hover {
+  box-shadow: 0 0 18px rgba(255,77,141,0.25);
+}
+
+/* equals */
+.calc-btn.equals {
+  background: var(--btn-equals-bg);
+  color: #fff;
+  font-weight: 700;
+  font-size: 26px;
+}
+.calc-btn.equals:hover {
+  background: var(--btn-equals-hover);
+  transform: translateY(-1px);
+}
+[data-theme="neon"] .calc-btn.equals {
+  color: #00ffaa;
+  border: 1px solid rgba(0,255,170,0.5);
+  background: transparent;
+  text-shadow: 0 0 8px #00ffaa;
+  box-shadow: 0 0 14px rgba(0,255,170,0.12);
+}
+[data-theme="neon"] .calc-btn.equals:hover {
+  box-shadow: 0 0 24px rgba(0,255,170,0.35);
+}
+
+/* neon number glow */
+[data-theme="neon"] .calc-btn.number,
+[data-theme="neon"] .calc-btn.decimal {
+  border: 1px solid rgba(0,255,247,0.22);
+  text-shadow: 0 0 6px currentColor;
+}
+[data-theme="neon"] .calc-btn.number:hover,
+[data-theme="neon"] .calc-btn.decimal:hover {
+  box-shadow: 0 0 18px rgba(0,255,247,0.22);
+  border-color: rgba(0,255,247,0.6);
+}
+
+/* span utilities */
+.span-2 { grid-column: span 2; }
+.row-span-2 { grid-row: span 2; }
+
+/* footer hint */
+.hint {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  opacity: 0.9;
+}
+.hint kbd {
+  background: var(--btn-number-bg);
+  color: var(--btn-number-color);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-family: monospace;
+  margin: 0 2px;
+  box-shadow: var(--shadow-btn);
+}
+
+/* theme label below switcher */
+.theme-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: -6px;
+  margin-bottom: 2px;
+}
+
+/* responsive */
+@media (max-width: 420px) {
+  .calculator { padding: 18px; border-radius: 20px; }
+  button.calc-btn { height: 58px; font-size: 19px; }
+  #display { height: 72px; font-size: 28px; }
+  .theme-btn { font-size: 12px; padding: 9px 10px; }
+}
+
+/* entrance animation */
+.calculator, .theme-switcher {
+  animation: slideUp 0.5s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* accessibility focus */
+button:focus-visible, #display:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+[data-theme="neon"] button:focus-visible {
+  outline-color: #00fff7;
+  box-shadow: 0 0 0 3px rgba(0,255,247,0.25);
+}
+
+</style>
+    <!-- فوری: جلوگیری از فلش تم -->
+    <script>
+      (function(){
+        try {
+          var t = localStorage.getItem('calc-theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch(e){}
+      })();
+    </script>
+</head>
+<body>
+    <!-- دکمه تغییر سریع تم (اختیاری، برای موبایل) -->
+    <button class="quick-toggle" id="quickToggle" aria-label="تغییر تم">تغییر تم → روشن</button>
+
+    <div class="app-wrapper">
+        <!-- Theme Switcher -->
+        <div class="theme-switcher" role="group" aria-label="انتخاب تم">
+            <button class="theme-btn" data-theme="light" aria-pressed="false">
+                <span class="icon">☀️</span>
+                <span>روشن</span>
+            </button>
+            <button class="theme-btn active" data-theme="dark" aria-pressed="true">
+                <span class="icon">🌙</span>
+                <span>تاریک</span>
+            </button>
+            <button class="theme-btn" data-theme="neon" aria-pressed="false">
+                <span class="icon">⚡</span>
+                <span>نئون</span>
+            </button>
+        </div>
+        <div class="theme-label">
+            تم فعلی: <strong id="currentThemeLabel">تاریک</strong>
+            · میانبر <kbd>Ctrl</kbd>+<kbd>T</kbd>
+        </div>
+
+        <!-- Calculator -->
+        <div class="calculator">
+            <div class="brand">
+                <span class="brand-title">Calculator Pro</span>
+                <span><span class="live-dot"></span>لایو</span>
+            </div>
+
+            <div class="display-wrap">
+                <div id="expression">&nbsp;</div>
+                <input type="text" id="display" readonly placeholder="0" autocomplete="off" aria-label="نمایشگر ماشین حساب">
+            </div>
+            
+            <div class="buttons">
+                <button class="calc-btn clear" onclick="clearDisplay()" aria-label="پاک کردن">C</button>
+                <button class="calc-btn delete" onclick="deleteLast()" aria-label="حذف">⌫</button>
+                <button class="calc-btn operator" onclick="appendToDisplay('%')" aria-label="درصد">%</button>
+                <button class="calc-btn operator" onclick="appendToDisplay('/')" aria-label="تقسیم">÷</button>
+                
+                <button class="calc-btn number" onclick="appendToDisplay('7')">7</button>
+                <button class="calc-btn number" onclick="appendToDisplay('8')">8</button>
+                <button class="calc-btn number" onclick="appendToDisplay('9')">9</button>
+                <button class="calc-btn operator" onclick="appendToDisplay('*')" aria-label="ضرب">×</button>
+                
+                <button class="calc-btn number" onclick="appendToDisplay('4')">4</button>
+                <button class="calc-btn number" onclick="appendToDisplay('5')">5</button>
+                <button class="calc-btn number" onclick="appendToDisplay('6')">6</button>
+                <button class="calc-btn operator" onclick="appendToDisplay('-')" aria-label="منها">−</button>
+                
+                <button class="calc-btn number" onclick="appendToDisplay('1')">1</button>
+                <button class="calc-btn number" onclick="appendToDisplay('2')">2</button>
+                <button class="calc-btn number" onclick="appendToDisplay('3')">3</button>
+                <button class="calc-btn operator" onclick="appendToDisplay('+')" aria-label="جمع">+</button>
+                
+                <button class="calc-btn number span-2" onclick="appendToDisplay('0')">0</button>
+                <button class="calc-btn decimal" onclick="appendToDisplay('.')">.</button>
+                <button class="calc-btn equals" onclick="calculate()" aria-label="مساوی">=</button>
+            </div>
+
+            <div class="hint">
+                کیبورد فعال است · <kbd>Enter</kbd> مساوی · <kbd>Esc</kbd> پاک کردن · <kbd>Backspace</kbd> حذف
+            </div>
+        </div>
+
+        <div class="hint" style="margin-top:4px; opacity:0.8">
+            ۳ تم: 
+            <span style="color:var(--text-main)">☀️ روشن</span> · 
+            🌙 تاریک · 
+            ⚡ نئون سایبرپانک
+        </div>
+    </div>
+
+    <script>
+// ماشین حساب - سیستم تم سه‌گانه
+const THEMES = ['dark', 'light', 'neon'];
+const THEME_LABELS = {
+  dark: 'تاریک',
+  light: 'روشن',
+  neon: 'نئون'
+};
+
+const display = document.getElementById('display');
+const expressionEl = document.getElementById('expression');
+let currentTheme = localStorage.getItem('calc-theme') || 'dark';
+
+// اعمال تم اولیه سریع (جلوگیری از فلش)
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+// بعد از load
+document.addEventListener('DOMContentLoaded', () => {
+  setTheme(currentTheme, false);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTheme(btn.dataset.theme);
+    });
+  });
+
+  // toggle سریع
+  const quickToggle = document.getElementById('quickToggle');
+  if (quickToggle) {
+    quickToggle.addEventListener('click', cycleTheme);
+  }
+
+  // میانبر کیبورد: Ctrl+T / Cmd+T برای تغییر تم
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 't') {
+      e.preventDefault();
+      cycleTheme();
+    }
+  });
+});
+
+function setTheme(theme, animate = true) {
+  if (!THEMES.includes(theme)) theme = 'dark';
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('calc-theme', theme);
+
+  // update buttons
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.theme === theme);
+    b.setAttribute('aria-pressed', b.dataset.theme === theme ? 'true' : 'false');
+  });
+
+  // update label
+  const labelEl = document.getElementById('currentThemeLabel');
+  if (labelEl) {
+    labelEl.textContent = THEME_LABELS[theme] || theme;
+  }
+
+  // quick toggle text
+  const quickToggle = document.getElementById('quickToggle');
+  if (quickToggle) {
+    const next = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+    quickToggle.innerHTML = `تغییر تم → ${THEME_LABELS[next]}`;
+  }
+
+  if (animate) {
+    // micro haptic / visual feedback
+    document.body.style.transform = 'scale(0.999)';
+    setTimeout(() => document.body.style.transform = '', 120);
+  }
+}
+
+function cycleTheme() {
+  const idx = THEMES.indexOf(currentTheme);
+  const next = THEMES[(idx + 1) % THEMES.length];
+  setTheme(next);
+}
+
+// ==== Calculator Logic ====
+function appendToDisplay(value) {
+  // جلوگیری از اپراتور دوبل
+  const lastChar = display.value.slice(-1);
+  const operators = ['+', '-', '*', '/', '.'];
+  if (operators.includes(value) && operators.includes(lastChar)) {
+    // اجازه - بعد از * / برای اعداد منفی
+    if (!(value === '-' && ['*', '/'].includes(lastChar))) {
+      display.value = display.value.slice(0, -1);
+    }
+  }
+  display.value += value;
+  updateExpression();
+  // ویبره نرم روی موبایل
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function clearDisplay() {
+  display.value = '';
+  if (expressionEl) expressionEl.textContent = '';
+}
+
+function deleteLast() {
+  display.value = display.value.slice(0, -1);
+  updateExpression();
+}
+
+function calculate() {
+  try {
+    let expression = display.value
+      .replace(/×/g, '*')
+      .replace(/÷/g, '/');
+
+    if (!expression) return;
+
+    // نمایش عبارت
+    if (expressionEl) expressionEl.textContent = display.value + ' =';
+
+    // محاسبه امن‌تر
+    // فقط اعداد و عملگرهای مجاز
+    if (!/^[0-9+\-*/.() %\s]+$/.test(expression)) {
+      throw new Error('invalid');
+    }
+
+    const result = Function('"use strict"; return (' + expression + ')')();
+
+    if (!isFinite(result)) throw new Error('math error');
+
+    // نمایش نتیجه
+    display.value = Number.isInteger(result)
+      ? result.toString()
+      : parseFloat(result.toFixed(8)).toString();
+
+    // افکت موفقیت کوچک
+    flashDisplay('success');
+
+  } catch (error) {
+    display.value = 'خطا';
+    if (expressionEl) expressionEl.textContent = 'عبارت نامعتبر';
+    flashDisplay('error');
+    setTimeout(() => clearDisplay(), 1400);
+  }
+}
+
+function updateExpression() {
+  if (expressionEl && display.value) {
+    expressionEl.textContent = display.value;
+  } else if (expressionEl) {
+    expressionEl.textContent = '\u00A0';
+  }
+}
+
+function flashDisplay(type) {
+  display.style.transition = 'none';
+  if (type === 'error') {
+    display.style.color = '#ff4d6d';
+  } else {
+    display.style.color = '#23c46e';
+  }
+  setTimeout(() => {
+    display.style.transition = '';
+    display.style.color = '';
+  }, 350);
+}
+
+// کیبورد
+document.addEventListener('keydown', (e) => {
+  const key = e.key;
+  if (/[0-9+\-*/.%()]/.test(key)) {
+    appendToDisplay(key);
+    e.preventDefault();
+  } else if (key === 'Enter' || key === '=') {
+    calculate();
+    e.preventDefault();
+  } else if (key === 'Escape') {
+    clearDisplay();
+  } else if (key === 'Backspace') {
+    deleteLast();
+    // جلوگیری از برگشت صفحه
+    e.preventDefault();
+  } else if (key === '.') {
+    appendToDisplay('.');
+    e.preventDefault();
+  }
+});
+
+// expose to global for inline onclick (سازگاری)
+window.appendToDisplay = appendToDisplay;
+window.clearDisplay = clearDisplay;
+window.deleteLast = deleteLast;
+window.calculate = calculate;
+window.setTheme = setTheme;
+window.cycleTheme = cycleTheme;
+
+// ثبت تم سیستم اگر کاربر قبلا انتخاب نکرده
+if (!localStorage.getItem('calc-theme')) {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark ? 'dark' : 'light', false);
+}
+
+console.log('%c🎨 ماشین حساب ۳ تمه – روشن / تاریک / نئون', 'font-size:14px; color:#764ba2; font-weight:bold');
+console.log('میانبر: Ctrl+T برای تغییر تم');
+
+</script>
+</body>
+</html>
