@@ -3,8 +3,7 @@
    Pure state machine, no eval().
    ============================================ */
 
-const MAX_INPUT_DIGITS = 15;   // max digits typed per operand
-const MAX_DISPLAY_DIGITS = 12; // switch to exponential beyond this
+const MAX_INPUT_DIGITS = 15; // max digits typed per operand
 
 /**
  * Format an operand string with thousands separators (en-US).
