@@ -3,12 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
+    <title>Calculator — Standard & Scientific</title>
+    <meta name="description" content="Clean calculator with light and dark theme and standard and scientific modes.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <main class="calculator" aria-label="Calculator">
-        <output class="display" id="display">0</output>
+        <div class="top-bar">
+            <div class="brand" aria-label="Calculator brand">
+                <span class="brand-mark" aria-hidden="true">◈</span>
+                <span class="brand-text">Calculator</span>
+            </div>
+            <div class="controls">
+                <button type="button" id="mode-toggle" class="control-btn mode-btn" aria-label="Toggle calculator mode">
+                    <span class="mode-icon" aria-hidden="true">◐</span>
+                    <span class="mode-label">Scientific</span>
+                </button>
+                <button type="button" id="theme-toggle" class="control-btn theme-btn" aria-label="Toggle theme">
+                    <span class="theme-icon" aria-hidden="true">☾</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="display-wrap">
+            <div id="history" class="history" aria-live="polite"></div>
+            <output class="display" id="display">0</output>
+        </div>
+
+        <div id="scientific-panel" class="scientific-panel" hidden>
+            <div class="scientific-grid">
+                <button type="button" class="btn btn-sci" data-action="percent" title="Percent">%</button>
+                <button type="button" class="btn btn-sci" data-action="sqrt" title="Square root">√</button>
+                <button type="button" class="btn btn-sci" data-action="square" title="Square">x²</button>
+                <button type="button" class="btn btn-sci" data-operation="^" title="Power">xʸ</button>
+                <button type="button" class="btn btn-sci" data-action="reciprocal" title="Reciprocal">1/x</button>
+
+                <button type="button" class="btn btn-sci" data-action="negate" title="Toggle sign">±</button>
+                <button type="button" class="btn btn-sci" data-action="sin" title="Sine">sin</button>
+                <button type="button" class="btn btn-sci" data-action="cos" title="Cosine">cos</button>
+                <button type="button" class="btn btn-sci" data-action="tan" title="Tangent">tan</button>
+                <button type="button" class="btn btn-sci" data-action="log" title="Log base 10">log</button>
+
+                <button type="button" class="btn btn-sci" data-action="ln" title="Natural log">ln</button>
+                <button type="button" class="btn btn-sci" data-action="factorial" title="Factorial">x!</button>
+                <button type="button" class="btn btn-sci" data-action="pi" title="Pi">π</button>
+                <button type="button" class="btn btn-sci" data-action="e" title="Euler number">e</button>
+                <button type="button" class="btn btn-sci" data-action="exp" title="Exponential">exp</button>
+            </div>
+        </div>
 
         <div class="buttons">
             <button type="button" class="btn btn-clear" data-action="clear">C</button>
@@ -33,6 +75,11 @@
 
             <button type="button" class="btn btn-digit btn-zero" data-digit="0">0</button>
             <button type="button" class="btn btn-digit" data-action="decimal">.</button>
+        </div>
+
+        <div class="mode-hint" aria-live="polite">
+            <span class="hint-standard">Standard</span>
+            <span class="hint-advanced">Scientific</span>
         </div>
     </main>
 
