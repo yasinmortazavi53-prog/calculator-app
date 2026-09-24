@@ -1,0 +1,107 @@
+/* ============================================
+   Calculator App — Step 1: Base styles
+   ============================================ */
+
+:root {
+    --color-bg-start: #667eea;
+    --color-bg-end: #764ba2;
+    --color-panel: #1e1e2f;
+    --color-screen: #0f0f1a;
+    --color-text: #ffffff;
+    --color-number: #2d2d44;
+    --color-operator: #ff9500;
+    --color-danger: #ff4757;
+    --color-success: #23c46e;
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+}
+
+/* ---------- Calculator shell ---------- */
+
+.calculator {
+    width: 320px;
+    padding: 20px;
+    border-radius: 20px;
+    background: var(--color-panel);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Display ---------- */
+
+.display {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 80px;
+    padding: 0 15px;
+    margin-bottom: 15px;
+    border-radius: var(--radius);
+    background: var(--color-screen);
+    color: var(--color-text);
+    font-size: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* ---------- Buttons grid ---------- */
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.btn {
+    height: 65px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 22px;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: transform 0.1s ease, filter 0.15s ease;
+}
+
+.btn:hover {
+    filter: brightness(1.15);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn-digit {
+    background: var(--color-number);
+}
+
+.btn-operator {
+    background: var(--color-operator);
+    font-weight: bold;
+}
+
+.btn-clear,
+.btn-delete {
+    background: var(--color-danger);
+}
+
+.btn-equals {
+    background: var(--color-success);
+    font-weight: bold;
+    grid-row: span 2;
+}
+
+.btn-zero {
+    grid-column: span 2;
+}
